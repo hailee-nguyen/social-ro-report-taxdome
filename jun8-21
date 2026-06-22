@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romania Social Media Performance — Jun 8–21 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f9f8f6;
+    --surface: #ffffff;
+    --surface-2: #f2f1ee;
+    --border: #e4e2dc;
+    --border-strong: #c8c5bb;
+    --text-primary: #1a1916;
+    --text-secondary: #5a5850;
+    --text-tertiary: #938f84;
+    --accent: #1a4f8a;
+    --accent-light: #e8eef7;
+    --accent-mid: #3b6db5;
+    --green: #1a6644;
+    --green-light: #e6f2ec;
+    --red: #8a2a1a;
+    --red-light: #f7ebe8;
+    --amber: #7a5200;
+    --amber-light: #fdf3e0;
+    --teal: #0e5c52;
+    --teal-light: #e3f2f0;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  .report-header {
+    background: var(--accent);
+    color: #fff;
+    padding: 48px 40px 40px;
+  }
+  .report-header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-bottom: 10px;
+  }
+  .report-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  .report-header .subtitle {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 24px;
+  }
+  .header-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .header-pill {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 4px 12px;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  .section { padding: 36px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    max-width: 700px;
+    line-height: 1.65;
+  }
+
+  /* ── CALLOUT BANNER ── */
+  .callout {
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    border-left: 4px solid;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout.info { background: var(--accent-light); border-color: var(--accent-mid); }
+  .callout.warn { background: var(--amber-light); border-color: #c8860a; }
+  .callout.good { background: var(--green-light); border-color: #2a9961; }
+  .callout-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+  .callout-body { font-size: 13.5px; color: var(--text-primary); line-height: 1.6; }
+  .callout-body strong { font-weight: 600; }
+
+  /* ── KPI GRID ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+  }
+  .kpi-card .kpi-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .kpi-card .kpi-value {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .kpi-card .kpi-delta {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .kpi-card .kpi-delta.up { color: var(--green); }
+  .kpi-card .kpi-delta.down { color: var(--red); }
+  .kpi-card .kpi-delta.neutral { color: var(--text-tertiary); }
+  .kpi-card .kpi-context {
+    font-size: 11.5px;
+    color: var(--text-tertiary);
+    line-height: 1.4;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .compare-table th {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    text-align: left;
+    padding: 0 12px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table th:not(:first-child) { text-align: right; }
+  .compare-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    vertical-align: middle;
+  }
+  .compare-table td:not(:first-child) { text-align: right; }
+  .compare-table tbody tr:last-child td { border-bottom: none; }
+  .compare-table tbody tr:hover td { background: var(--surface-2); }
+  .compare-table .row-label { color: var(--text-secondary); font-weight: 500; }
+  .compare-table .val-a { color: var(--accent-mid); font-weight: 500; }
+  .compare-table .val-b { color: var(--teal); font-weight: 500; }
+  .delta-chip {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .delta-chip.up { background: var(--green-light); color: var(--green); }
+  .delta-chip.down { background: var(--red-light); color: var(--red); }
+  .delta-chip.flat { background: var(--surface-2); color: var(--text-tertiary); }
+
+  /* ── CHART CONTAINERS ── */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 620px) { .chart-grid { grid-template-columns: 1fr; } }
+
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+  }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+  .chart-card-sub {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+  }
+  .chart-wrap { position: relative; }
+
+  /* ── LEGEND ── */
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-swatch {
+    width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0;
+  }
+
+  /* ── INSIGHT BOX ── */
+  .insight-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    margin-top: 12px;
+  }
+  .insight-box h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+  .insight-box p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  /* ── BREAKDOWN ROWS ── */
+  .breakdown-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .breakdown-row:last-child { border-bottom: none; }
+  .breakdown-label { font-size: 13px; color: var(--text-secondary); flex: 1; }
+  .breakdown-bar-wrap { flex: 2; background: var(--surface-2); border-radius: 3px; height: 6px; overflow: hidden; }
+  .breakdown-bar { height: 100%; border-radius: 3px; }
+  .breakdown-vals { display: flex; gap: 16px; min-width: 140px; justify-content: flex-end; }
+  .breakdown-val { font-size: 12.5px; font-weight: 500; min-width: 44px; text-align: right; }
+  .breakdown-val.a { color: var(--accent-mid); }
+  .breakdown-val.b { color: var(--teal); }
+
+  /* ── POST SPOTLIGHTS ── */
+  .post-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 620px) { .post-grid { grid-template-columns: 1fr; } }
+
+  .post-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+  }
+  .post-card .post-platform {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .post-card .post-platform.li { background: var(--accent-light); color: var(--accent); }
+  .post-card .post-platform.fb { background: #e8f0fb; color: #2a4a8a; }
+  .post-card .post-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .post-card .post-excerpt {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+  .post-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+  .post-stat { font-size: 12px; color: var(--text-tertiary); }
+  .post-stat strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ── NOTE CHIP ── */
+  .note {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--amber-light);
+    border: 1px solid #e8c87a;
+    color: var(--amber);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 4px 0 24px; }
+
+  /* ── TREND LABEL ── */
+  .trend-note {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 10px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="report-header">
+  <div class="container">
+    <p class="eyebrow">Romania · Social Media Performance · Organic</p>
+    <h1>Facebook &amp; LinkedIn Organic<br>Jun 8–21, 2026</h1>
+    <p class="subtitle">Biweekly performance report · Compared to May 25–Jun 7, 2026</p>
+    <div class="header-pills">
+      <span class="header-pill">📌 Jun 8–21 spotlight</span>
+      <span class="header-pill">LinkedIn · Facebook</span>
+      <span class="header-pill">Jan–Jun 2026 context</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- ── OVERVIEW ── -->
+  <div class="section">
+    <p class="section-label">Overview</p>
+    <p class="section-title">Fewer posts, stronger engagement per post</p>
+    <p class="section-desc">
+      Jun 8–21 saw lower reach and impressions across both platforms compared to the previous two-week window — but engagement rate improved on both LinkedIn (+3.0pp) and Facebook (+2.9pp). The decline in raw reach is explained by fewer posts published (–3 on LinkedIn, –2 on Facebook) and the absence of high-reach outlier profiles like Cornelia Nastase from the previous period. Organic traffic to the landing page dropped sharply, driven almost entirely by a collapse in Facebook referral clicks.
+    </p>
+
+    <div class="callout info">
+      <span class="callout-icon">📌</span>
+      <div class="callout-body">
+        <strong>Presenting: Jun 8–21, 2026.</strong> This report covers a biweekly window. May 25–Jun 7 data is shown as the direct comparison period. Monthly trend context (Jan–Jun 2026) is included in the chart sections.
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">LinkedIn Impressions</div>
+        <div class="kpi-value">1,070</div>
+        <div class="kpi-delta down">▼ 15.8% vs prev period</div>
+        <div class="kpi-context">May 25–Jun 7: 1,271<br>6 posts vs 9 posts</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">LinkedIn ER (Organic)</div>
+        <div class="kpi-value">7.10%</div>
+        <div class="kpi-delta up">▲ +3.0pp vs prev period</div>
+        <div class="kpi-context">May 25–Jun 7: 4.07%<br>Highest biweekly ER recorded</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Facebook Organic Reach</div>
+        <div class="kpi-value">1,372</div>
+        <div class="kpi-delta down">▼ 51.9% vs prev period</div>
+        <div class="kpi-context">May 25–Jun 7: 2,853<br>6 posts vs 8 posts</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Facebook ER (Organic)</div>
+        <div class="kpi-value">6.05%</div>
+        <div class="kpi-delta up">▲ +2.9pp vs prev period</div>
+        <div class="kpi-context">May 25–Jun 7: 3.19%<br>Recovery toward Mar–Apr range</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">LP Clicks from RO SM</div>
+        <div class="kpi-value">19</div>
+        <div class="kpi-delta down">▼ 75.3% vs prev period</div>
+        <div class="kpi-context">May 25–Jun 7: 77<br>LP from FB: 5 · LP from LI: 12</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">WIA from Total SM</div>
+        <div class="kpi-value">13</div>
+        <div class="kpi-delta down">▼ 70.5% vs prev period</div>
+        <div class="kpi-context">May 25–Jun 7: 44<br>Tracks WIA campaign clicks</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Facebook Organic Views</div>
+        <div class="kpi-value">3,821</div>
+        <div class="kpi-delta down">▼ 63.4% vs prev period</div>
+        <div class="kpi-context">May 25–Jun 7: 10,450<br>Video/reel views included</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Total Post Reposts</div>
+        <div class="kpi-value">2</div>
+        <div class="kpi-delta down">▼ 33% vs prev period</div>
+        <div class="kpi-context">May 25–Jun 7: 3<br>1 LI repost · 1 FB share</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── REACH & VISIBILITY ── -->
+  <div class="section">
+    <p class="section-label">Reach &amp; Visibility Trends</p>
+    <p class="section-title">Monthly context: Feb–Jun 2026</p>
+    <p class="section-desc">
+      Both platforms show reach volatility driven by content mix and post volume rather than a consistent upward or downward trend. LinkedIn impressions are accumulating as the Women in Accounting series matures and profile subjects occasionally amplify posts to their own networks. Facebook reach is more sensitive to video/reel performance and individual post virality.
+    </p>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-card-title">LinkedIn organic impressions</div>
+        <div class="chart-card-sub">Feb–Jun 2026 · monthly · last two bars are biweekly</div>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-swatch" style="background:#3b6db5;"></span>Impressions</div>
+          <div class="legend-item"><span class="legend-swatch" style="background:#e8a030; border-radius:50%;"></span>Jun spotlight</div>
+        </div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="liImpressions" role="img" aria-label="LinkedIn impressions Feb–Jun 2026. Feb: 848, Mar: 3814, Apr: 1369, May: 1951, May25-Jun7: 1271, Jun8-21: 1070.">LinkedIn impressions trend Jan–Jun 2026.</canvas>
+        </div>
+        <p class="trend-note">Mar spike driven by Bootcamp + WIA launch (IWD). Last two bars are biweekly windows.</p>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">Facebook organic reach</div>
+        <div class="chart-card-sub">Feb–Jun 2026 · monthly · last two bars are biweekly</div>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-swatch" style="background:#1a6644;"></span>Reach</div>
+        </div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="fbReach" role="img" aria-label="Facebook organic reach Feb–Jun 2026. Feb: 140, Mar: 2430, Apr: 8568, May: 5067, May25-Jun7: 2853, Jun8-21: 1372.">Facebook reach trend Jan–Jun 2026.</canvas>
+        </div>
+        <p class="trend-note">Apr peak driven by WIA profile posts with high subject-network amplification.</p>
+      </div>
+
+      <div class="chart-card full">
+        <div class="chart-card-title">Facebook organic views</div>
+        <div class="chart-card-sub">Feb–Jun 2026 · area trend · last two points are biweekly</div>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-swatch" style="background:#3b6db5;"></span>Views</div>
+        </div>
+        <div class="chart-wrap" style="height:180px;">
+          <canvas id="fbViews" role="img" aria-label="Facebook views Feb–Jun 2026. Feb: 1098, Mar: 6791, Apr: 10448, May: 9258, May25-Jun7: 10450, Jun8-21: 3821.">Facebook views trend Jan–Jun 2026.</canvas>
+        </div>
+        <p class="trend-note">May 25–Jun 7 views (10,450) were elevated by the Nicoleta Vrajescu Dobre WIA photo post (4,161 views alone). Jun 8–21 had no comparable high-view post.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PERIOD COMPARISON ── -->
+  <div class="section">
+    <p class="section-label">Period comparison</p>
+    <p class="section-title">May 25–Jun 7 vs Jun 8–21: platform breakdown</p>
+    <p class="section-desc">
+      The table below compares all tracked metrics between the two most recent biweekly periods. Facebook views fell from 10,450 to 3,821 — a significant drop explained by fewer posts (6 vs 8) and the absence of a high-view post equivalent in Jun 8–21; the Nicoleta Vrajescu Dobre WIA profile post in May 25–Jun 7 alone generated 4,161 views as a static image. LinkedIn impressions fell 15.8% from 1,271 to 1,070 with 3 fewer posts published.
+    </p>
+
+    <div class="chart-card" style="padding: 0; overflow: hidden; margin-bottom: 16px;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="padding-left: 20px;">Metric</th>
+            <th>May 25–Jun 7</th>
+            <th>Jun 8–21</th>
+            <th>Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">LinkedIn impressions</td>
+            <td class="val-a">1,271</td>
+            <td class="val-b">1,070</td>
+            <td><span class="delta-chip down">▼ 15.8%</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">LinkedIn engagement rate</td>
+            <td class="val-a">4.07%</td>
+            <td class="val-b">7.10%</td>
+            <td><span class="delta-chip up">▲ +3.0pp</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">LinkedIn total engagements</td>
+            <td class="val-a">40</td>
+            <td class="val-b">47</td>
+            <td><span class="delta-chip up">▲ +17.5%</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">LinkedIn posts published</td>
+            <td class="val-a">9</td>
+            <td class="val-b">6</td>
+            <td><span class="delta-chip down">▼ –3</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">Facebook organic reach</td>
+            <td class="val-a">2,853</td>
+            <td class="val-b">1,372</td>
+            <td><span class="delta-chip down">▼ 51.9%</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">Facebook organic views</td>
+            <td class="val-a">10,450</td>
+            <td class="val-b">3,821</td>
+            <td><span class="delta-chip down">▼ 63.4%</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">Facebook engagement rate</td>
+            <td class="val-a">3.19%</td>
+            <td class="val-b">6.05%</td>
+            <td><span class="delta-chip up">▲ +2.9pp</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">Facebook total clicks</td>
+            <td class="val-a">91</td>
+            <td class="val-b">83</td>
+            <td><span class="delta-chip down">▼ –8.8%</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">Facebook posts published</td>
+            <td class="val-a">8</td>
+            <td class="val-b">6</td>
+            <td><span class="delta-chip down">▼ –2</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">LP clicks from RO SM (total)</td>
+            <td class="val-a">77</td>
+            <td class="val-b">19</td>
+            <td><span class="delta-chip down">▼ 75.3%</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">LP clicks from Facebook</td>
+            <td class="val-a">68</td>
+            <td class="val-b">5</td>
+            <td><span class="delta-chip down">▼ 92.6%</span></td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px; border-bottom: none;">LP clicks from LinkedIn</td>
+            <td class="val-a" style="border-bottom: none;">7</td>
+            <td class="val-b" style="border-bottom: none;">12</td>
+            <td style="border-bottom: none;"><span class="delta-chip up">▲ +71.4%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="insight-box">
+      <h4>Why impressions fell but engagements rose</h4>
+      <p>The previous period had 9 LinkedIn posts, including the Cornelia Nastase profile (556 impressions) — a high-reach outlier that inflated the period total. In Jun 8–21, with 6 posts and no comparable outlier, total impressions dropped 15.8% to 1,070. However, the posts that did run generated more reactions and clicks per impression, pushing ER to 7.10% — the highest biweekly rate recorded since tracking began. On Facebook, the May 25–Jun 7 view count (10,450) was heavily skewed by the Nicoleta Vrajescu Dobre WIA photo post, which generated 4,161 views on its own — a static image post, not a reel. Without a comparable outlier in Jun 8–21, views fell to 3,821, but ER improved from 3.19% to 6.05%.</p>
+    </div>
+  </div>
+
+  <!-- ── ENGAGEMENT RATES ── -->
+  <div class="section">
+    <p class="section-label">Engagement Rates (Organic)</p>
+    <p class="section-title">Both platforms improved ER despite reach decline</p>
+    <p class="section-desc">
+      Engagement rate measures reactions, comments, clicks, and shares as a proportion of impressions (LinkedIn) or reach (Facebook). An improving ER alongside falling reach is a denominator effect: fewer people saw the content, but a higher proportion of those who did engaged with it.
+    </p>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-card-title">LinkedIn ER (organic) — biweekly</div>
+        <div class="chart-card-sub">All tracked biweekly periods · Jun 8–21 highlighted</div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="liER" role="img" aria-label="LinkedIn biweekly engagement rate trend. May 25-Jun 7: 4.07%, Jun 8-21: 7.10%.">LinkedIn ER trend biweekly.</canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Facebook ER (organic) — biweekly</div>
+        <div class="chart-card-sub">All tracked biweekly periods · Jun 8–21 highlighted</div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="fbER" role="img" aria-label="Facebook biweekly engagement rate trend. May 25-Jun 7: 3.19%, Jun 8-21: 6.05%.">Facebook ER trend biweekly.</canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card full" style="margin-top: 16px;">
+      <div class="chart-card-title">Monthly ER — LinkedIn vs Facebook</div>
+      <div class="chart-card-sub">Feb–Jun 2026 · last two points are biweekly windows</div>
+      <div class="chart-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#3b6db5;"></span>LinkedIn ER</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#1a6644;"></span>Facebook ER</div>
+      </div>
+      <div class="chart-wrap" style="height:220px;">
+        <canvas id="erMonthly" role="img" aria-label="Monthly ER comparison LinkedIn vs Facebook Feb–Jun 2026.">Monthly ER comparison.</canvas>
+      </div>
+    </div>
+
+    <div class="insight-box" style="margin-top: 16px;">
+      <h4>LI ER at 7.10% — highest biweekly rate recorded</h4>
+      <p>The Jun 8–21 LinkedIn engagement rate of 7.10% is the highest biweekly figure since tracking began. The Otilia Nourescu profile (5.71% ER, 215 impressions) and the Oltenia Accounting Forum recap (6.54% ER, 107 impressions) were the strongest performers. Facebook ER at 6.05% also recovered from 3.19% in the prior period, with the Otilia Nourescu FB post achieving 11.88% ER and the forum recap reaching 5.37%.</p>
+    </div>
+  </div>
+
+  <!-- ── ORGANIC TRAFFIC ── -->
+  <div class="section">
+    <p class="section-label">Organic Traffic to Landing Page</p>
+    <p class="section-title">LP traffic dropped 75% — driven almost entirely by Facebook</p>
+    <p class="section-desc">
+      Organic traffic to the Women in Accounting landing page from Romanian social media fell from 77 clicks to 19 clicks between the two periods. The collapse is almost entirely explained by a loss of Facebook referral traffic: FB drove 68 clicks in May 25–Jun 7 (88% of total), but only 5 in Jun 8–21. LinkedIn LP traffic, by contrast, increased from 7 to 12 clicks.
+    </p>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>FB LP traffic is subject-dependent, not content-type dependent.</strong> The May 25–Jun 7 spike was driven by the Cornelia Nastase post, which generated unusually high sharing behavior — likely because the subject or her network shared the post, driving traffic to the LP. Without a similarly well-connected featured subject in Jun 8–21, FB referral traffic collapsed 93%. This means LP traffic from Facebook will always be lumpy and hard to forecast.
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card full">
+        <div class="chart-card-title">Total LP clicks from RO social media</div>
+        <div class="chart-card-sub">Mar–Jun 2026 · May shown as full month · last two bars are biweekly windows</div>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-swatch" style="background:#2a4a8a;"></span>From Facebook</div>
+          <div class="legend-item"><span class="legend-swatch" style="background:#3b6db5;"></span>From LinkedIn</div>
+        </div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="lpClicks" role="img" aria-label="LP clicks from social media by source. Mar: FB 180, LI 39. Apr: FB 129, LI 17. May 25-Jun 7: FB 68, LI 7. Jun 8-21: FB 5, LI 12.">LP clicks stacked bar chart.</canvas>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top: 24px;">LP traffic breakdown — biweekly comparison</p>
+
+    <div class="breakdown-row">
+      <span class="breakdown-label">From Facebook</span>
+      <div class="breakdown-bar-wrap">
+        <div class="breakdown-bar" style="width: 100%; background: #3b6db5;"></div>
+      </div>
+      <div class="breakdown-vals">
+        <span class="breakdown-val a">68</span>
+        <span class="breakdown-val b">5</span>
+        <span class="delta-chip down" style="font-size:11px;">▼ 92.6%</span>
+      </div>
+    </div>
+    <div class="breakdown-row">
+      <span class="breakdown-label">From LinkedIn</span>
+      <div class="breakdown-bar-wrap">
+        <div class="breakdown-bar" style="width: 18%; background: #1a6644;"></div>
+      </div>
+      <div class="breakdown-vals">
+        <span class="breakdown-val a">7</span>
+        <span class="breakdown-val b">12</span>
+        <span class="delta-chip up" style="font-size:11px;">▲ +71.4%</span>
+      </div>
+    </div>
+    <div class="breakdown-row" style="border-top: 1.5px solid var(--border-strong);">
+      <span class="breakdown-label" style="font-weight: 600;">Total LP from RO SM</span>
+      <div class="breakdown-bar-wrap">
+        <div class="breakdown-bar" style="width: 25%; background: var(--text-tertiary);"></div>
+      </div>
+      <div class="breakdown-vals">
+        <span class="breakdown-val a">77</span>
+        <span class="breakdown-val b">19</span>
+        <span class="delta-chip down" style="font-size:11px;">▼ 75.3%</span>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 12px; margin-top: 8px; font-size: 12px; color: var(--text-tertiary); flex-wrap: wrap;">
+      <span style="color: var(--accent-mid); font-weight: 500;">■ May 25–Jun 7</span>
+      <span style="color: var(--teal); font-weight: 500;">■ Jun 8–21</span>
+    </div>
+
+    <div class="chart-grid" style="margin-top: 20px;">
+      <div class="chart-card">
+        <div class="chart-card-title">LP traffic source split — May 25–Jun 7</div>
+        <div class="chart-card-sub">Facebook drove 88% of LP clicks</div>
+        <div class="chart-wrap" style="height:180px;">
+          <canvas id="lpSplitA" role="img" aria-label="LP source split May 25-Jun 7. Facebook: 68 (88%), LinkedIn: 7 (9%), Other: 2 (3%).">LP split pie chart period A.</canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">LP traffic source split — Jun 8–21</div>
+        <div class="chart-card-sub">LinkedIn now drives 63% of LP clicks</div>
+        <div class="chart-wrap" style="height:180px;">
+          <canvas id="lpSplitB" role="img" aria-label="LP source split Jun 8-21. Facebook: 5 (26%), LinkedIn: 12 (63%), Other: 2 (11%).">LP split pie chart period B.</canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box" style="margin-top: 16px;">
+      <h4>LinkedIn LP traffic is growing structurally</h4>
+      <p>While total LP clicks fell, LinkedIn's share flipped from 9% (7 of 77) to 63% (12 of 19) between the two periods. The LI audience is clicking through to profile pages more consistently than the FB audience. This suggests LI is becoming the more reliable source of WIA LP traffic, while FB traffic will remain dependent on individual post amplification from featured subjects and their networks.</p>
+    </div>
+  </div>
+
+  <!-- ── WIA CAMPAIGN ── -->
+  <div class="section">
+    <p class="section-label">Women in Accounting Campaign</p>
+    <p class="section-title">Campaign reach by post type — Jun 8–21</p>
+    <p class="section-desc">
+      The WIA campaign ran 4 posts in the Jun 8–21 period across both platforms: 2 profile posts (Otilia Nourescu, Cristina Cristea) and 2 supporting nomination posts. Profile posts continue to outperform supporting posts on both reach and engagement, confirming that the profiled subject's identity and story are the primary engagement driver.
+    </p>
+
+    <div class="chart-card" style="margin-bottom: 16px;">
+      <div class="chart-card-title">WIA from total social media</div>
+      <div class="chart-card-sub">Mar–Jun 2026 · May shown as full month · last two bars are biweekly windows</div>
+      <div class="chart-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#3b6db5;"></span>WIA clicks from SM</div>
+      </div>
+      <div class="chart-wrap" style="height:160px;">
+        <canvas id="wiaClicks" role="img" aria-label="WIA clicks from social media. Mar: 149, Apr: 97, May 25-Jun 7: 44, Jun 8-21: 13.">WIA clicks bar chart.</canvas>
+      </div>
+    </div>
+
+    <p class="section-label">WIA post spotlight — Jun 8–21</p>
+    <div class="post-grid">
+      <div class="post-card">
+        <span class="post-platform li">LinkedIn</span>
+        <div class="post-title">Otilia Nourescu — KCG Accounting Services</div>
+        <div class="post-excerpt">"Contabilitatea nu înseamnă doar cifre, ci soluții și protecție pentru afaceri." Profile post — Managing Partner, nominated for preventive fiscal approach and 20+ years experience.</div>
+        <div class="post-stats">
+          <span class="post-stat"><strong>215</strong> impressions</span>
+          <span class="post-stat"><strong>5.71%</strong> ER</span>
+          <span class="post-stat"><strong>9</strong> clicks</span>
+          <span class="post-stat"><strong>1</strong> repost</span>
+        </div>
+      </div>
+      <div class="post-card">
+        <span class="post-platform fb">Facebook</span>
+        <div class="post-title">Otilia Nourescu — KCG Accounting Services</div>
+        <div class="post-excerpt">Same profile post cross-published to Facebook. Highest ER of the period on the platform. 2 LP clicks attributed.</div>
+        <div class="post-stats">
+          <span class="post-stat"><strong>87</strong> reach</span>
+          <span class="post-stat"><strong>11.88%</strong> ER</span>
+          <span class="post-stat"><strong>3</strong> reactions</span>
+          <span class="post-stat"><strong>2</strong> clicks</span>
+        </div>
+      </div>
+      <div class="post-card">
+        <span class="post-platform li">LinkedIn</span>
+        <div class="post-title">Cristina Cristea — CRIRALEX TAX SOLUTIONS</div>
+        <div class="post-excerpt">"Contabilul nu mai este doar un specialist al cifrelor, ci un partener în decizii." Profile post — founder, combines fiscal administration experience with entrepreneurship.</div>
+        <div class="post-stats">
+          <span class="post-stat"><strong>182</strong> impressions</span>
+          <span class="post-stat"><strong>4.95%</strong> ER</span>
+          <span class="post-stat"><strong>13</strong> clicks</span>
+          <span class="post-stat"><strong>1</strong> comment</span>
+        </div>
+      </div>
+      <div class="post-card">
+        <span class="post-platform fb">Facebook</span>
+        <div class="post-title">Oltenia Accounting Forum recap</div>
+        <div class="post-excerpt">Event recap post following TaxDome's presence at the Craiova forum. Highest reach post of the period across both platforms.</div>
+        <div class="post-stats">
+          <span class="post-stat"><strong>1,043</strong> reach</span>
+          <span class="post-stat"><strong>1,480</strong> views</span>
+          <span class="post-stat"><strong>5.37%</strong> ER</span>
+          <span class="post-stat"><strong>8</strong> reactions</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LP TRAFFIC TABLE ── -->
+  <div class="section">
+    <p class="section-label">LP Traffic Detail — all tracked periods</p>
+    <p class="section-title">Full breakdown since tracking began (Mar 2026)</p>
+    <p class="section-desc">
+      LP click tracking from Romanian social media began in March 2026. June data is presented as two biweekly windows (May 25–Jun 7 and Jun 8–21) to reflect the reporting structure for this document. The prior months are shown as full calendar months for context.
+    </p>
+
+    <div class="note">⚠️ May 2026 is a full calendar month. May 25–Jun 7 and Jun 8–21 are biweekly windows — do not compare directly to monthly totals.</div>
+
+    <div class="chart-card" style="padding: 0; overflow: hidden;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="padding-left: 20px;">Source</th>
+            <th>Mar 2026</th>
+            <th>Apr 2026</th>
+            <th>May 2026</th>
+            <th>May 25–Jun 7</th>
+            <th>Jun 8–21 ★</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label" style="padding-left: 20px; font-weight: 600;">Total LP from RO SM</td>
+            <td>225</td>
+            <td>147</td>
+            <td>121</td>
+            <td>77</td>
+            <td style="font-weight: 600; color: var(--teal);">19</td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">LP from Facebook</td>
+            <td>180</td>
+            <td>129</td>
+            <td>97</td>
+            <td>68</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px;">LP from LinkedIn</td>
+            <td>39</td>
+            <td>17</td>
+            <td>17</td>
+            <td>7</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td class="row-label" style="padding-left: 20px; border-bottom: none;">WIA from SM</td>
+            <td style="border-bottom: none;">149</td>
+            <td style="border-bottom: none;">97</td>
+            <td style="border-bottom: none;">73</td>
+            <td style="border-bottom: none;">44</td>
+            <td style="border-bottom: none; font-weight: 600; color: var(--teal);">13</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="insight-box" style="margin-top: 12px;">
+      <h4>Traffic pattern: FB-dominant with high variance, LI-stable with low volume</h4>
+      <p>Since March, Facebook has been the dominant LP traffic driver — but with high variance (180 → 129 → 68 → 5). LinkedIn traffic is lower in absolute volume but more consistent and trending upward in share. The Mar peak was driven by the International Women's Day launch post and early WIA profile posts generating high sharing. The Apr–Jun decline reflects fewer high-amplification posts rather than platform-level degradation.</p>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <span>Romania Social Media · TaxDome International Growth</span>
+  <span>Data: Jan–Jun 2026 · LP tracking started Mar 2026 · Prepared Jun 22, 2026</span>
+  <span>Facebook &amp; LinkedIn Organic only</span>
+</div>
+
+<script>
+const MONTHS = ['Feb','Mar','Apr','May','May25–Jun7','Jun8–21'];
+
+// shared tooltip config
+const tooltipDefaults = {
+  backgroundColor: '#1a1916',
+  titleColor: '#fff',
+  bodyColor: 'rgba(255,255,255,0.75)',
+  padding: 10,
+  cornerRadius: 6,
+  displayColors: false
+};
+
+// ── LI Impressions
+new Chart(document.getElementById('liImpressions'), {
+  type: 'bar',
+  data: {
+    labels: MONTHS,
+    datasets: [{
+      label: 'Impressions',
+      data: [848, 3814, 1369, 1951, 1271, 1070],
+      backgroundColor: (ctx) => ctx.dataIndex === 5 ? '#e8a030' : '#3b6db5',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipDefaults } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#938f84', font: { size: 11 } } }
+    }
+  }
+});
+
+// ── FB Reach
+new Chart(document.getElementById('fbReach'), {
+  type: 'bar',
+  data: {
+    labels: MONTHS,
+    datasets: [{
+      label: 'Reach',
+      data: [140, 2430, 8568, 5067, 2853, 1372],
+      backgroundColor: (ctx) => ctx.dataIndex === 5 ? '#2a9961' : '#1a6644',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipDefaults } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#938f84', font: { size: 11 } } }
+    }
+  }
+});
+
+// ── FB Views area
+new Chart(document.getElementById('fbViews'), {
+  type: 'line',
+  data: {
+    labels: MONTHS,
+    datasets: [{
+      label: 'Views',
+      data: [1098, 6791, 10448, 9258, 10450, 3821],
+      borderColor: '#3b6db5',
+      backgroundColor: 'rgba(59,109,181,0.08)',
+      fill: true,
+      tension: 0.35,
+      pointBackgroundColor: (ctx) => ctx.dataIndex === 5 ? '#e8a030' : '#3b6db5',
+      pointRadius: 4,
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipDefaults } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#938f84', font: { size: 11 } } }
+    }
+  }
+});
+
+// ── LI ER biweekly
+const biweeklyLabels = ['May 25–Jun 7', 'Jun 8–21'];
+new Chart(document.getElementById('liER'), {
+  type: 'bar',
+  data: {
+    labels: biweeklyLabels,
+    datasets: [{
+      label: 'ER %',
+      data: [4.07, 7.10],
+      backgroundColor: ['rgba(59,109,181,0.5)', '#3b6db5'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipDefaults, callbacks: { label: v => v.raw.toFixed(2) + '%' } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#938f84', font: { size: 11 }, callback: v => v + '%' }, max: 10 }
+    }
+  }
+});
+
+// ── FB ER biweekly
+new Chart(document.getElementById('fbER'), {
+  type: 'bar',
+  data: {
+    labels: ['May 25–Jun 7', 'Jun 8–21'],
+    datasets: [{
+      label: 'ER %',
+      data: [3.19, 6.05],
+      backgroundColor: ['rgba(26,102,68,0.4)', '#1a6644'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipDefaults, callbacks: { label: v => v.raw.toFixed(2) + '%' } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#938f84', font: { size: 11 }, callback: v => v + '%' }, max: 9 }
+    }
+  }
+});
+
+// ── Monthly ER comparison
+new Chart(document.getElementById('erMonthly'), {
+  type: 'line',
+  data: {
+    labels: MONTHS,
+    datasets: [
+      {
+        label: 'LinkedIn ER',
+        data: [4.29, 4.64, 5.11, 4.82, 4.07, 7.10],
+        borderColor: '#3b6db5',
+        backgroundColor: 'transparent',
+        tension: 0.35,
+        pointRadius: 4,
+        borderWidth: 2,
+        borderDash: []
+      },
+      {
+        label: 'Facebook ER',
+        data: [9.29, 7.20, 1.62, 2.43, 3.19, 6.05],
+        borderColor: '#1a6644',
+        backgroundColor: 'transparent',
+        tension: 0.35,
+        pointRadius: 4,
+        borderWidth: 2,
+        borderDash: [5, 3]
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipDefaults, callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw.toFixed(2) + '%' } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#938f84', font: { size: 11 }, callback: v => v + '%' } }
+    }
+  }
+});
+
+// ── LP Clicks stacked bar (Mar–Jun biweekly)
+new Chart(document.getElementById('lpClicks'), {
+  type: 'bar',
+  data: {
+    labels: ['Mar 2026', 'Apr 2026', 'May 2026', 'May 25–Jun 7', 'Jun 8–21 ★'],
+    datasets: [
+      {
+        label: 'From Facebook',
+        data: [180, 129, 97, 68, 5],
+        backgroundColor: '#2a4a8a',
+        borderRadius: 0
+      },
+      {
+        label: 'From LinkedIn',
+        data: [39, 17, 17, 7, 12],
+        backgroundColor: '#3b6db5',
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipDefaults } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 }, autoSkip: false } },
+      y: { stacked: true, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#938f84', font: { size: 11 } } }
+    }
+  }
+});
+
+// ── LP split pie A
+new Chart(document.getElementById('lpSplitA'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Facebook', 'LinkedIn', 'Other'],
+    datasets: [{
+      data: [68, 7, 2],
+      backgroundColor: ['#2a4a8a', '#3b6db5', '#c8c5bb'],
+      borderWidth: 0,
+      hoverOffset: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '65%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { ...tooltipDefaults, callbacks: { label: ctx => ctx.label + ': ' + ctx.raw + ' (' + Math.round(ctx.raw / 77 * 100) + '%)' } }
+    }
+  }
+});
+
+// ── LP split pie B
+new Chart(document.getElementById('lpSplitB'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Facebook', 'LinkedIn', 'Other'],
+    datasets: [{
+      data: [5, 12, 2],
+      backgroundColor: ['#2a4a8a', '#3b6db5', '#c8c5bb'],
+      borderWidth: 0,
+      hoverOffset: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '65%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { ...tooltipDefaults, callbacks: { label: ctx => ctx.label + ': ' + ctx.raw + ' (' + Math.round(ctx.raw / 19 * 100) + '%)' } }
+    }
+  }
+});
+
+// ── WIA clicks bar
+new Chart(document.getElementById('wiaClicks'), {
+  type: 'bar',
+  data: {
+    labels: ['Mar 2026', 'Apr 2026', 'May 2026', 'May 25–Jun 7', 'Jun 8–21 ★'],
+    datasets: [{
+      label: 'WIA clicks from SM',
+      data: [149, 97, 73, 44, 13],
+      backgroundColor: (ctx) => ctx.dataIndex === 4 ? '#0e5c52' : '#1d9e75',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipDefaults } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 }, autoSkip: false } },
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#938f84', font: { size: 11 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>
