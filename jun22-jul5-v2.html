@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romania Social Media — Jun 22–Jul 5, 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f9f8f6;
+  --surface: #ffffff;
+  --surface-2: #f2f1ee;
+  --border: #e4e2dc;
+  --text-1: #1a1916;
+  --text-2: #5a5850;
+  --text-3: #938f84;
+  --accent: #1a4f8a;
+  --accent-light: #e8eef7;
+  --accent-mid: #3b6db5;
+  --green: #1a6644;
+  --green-light: #e6f2ec;
+  --red: #8a2a1a;
+  --red-light: #f7ebe8;
+  --amber: #7a5200;
+  --amber-light: #fdf3e0;
+  --teal: #0e5c52;
+  --r: 8px;
+  --r-lg: 12px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* HEADER */
+.hd { background: var(--accent); color: #fff; padding: 36px 40px 30px; }
+.hd-eye { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; margin-bottom: 8px; }
+.hd-title { font-size: 22px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; }
+.hd-sub { font-size: 13px; opacity: 0.6; margin-bottom: 18px; }
+.hd-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.hd-pill {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
+  font-size: 11.5px;
+  padding: 3px 11px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* LAYOUT */
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 28px 0; border-bottom: 1px solid var(--border); }
+.section:last-of-type { border-bottom: none; }
+.sec-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-3); margin-bottom: 14px;
+}
+
+/* KPI */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+@media (max-width: 700px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 420px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 14px 12px;
+}
+.kpi-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; line-height: 1.3; }
+.kpi-val { font-size: 22px; font-weight: 600; line-height: 1; margin-bottom: 6px; }
+.kpi-delta { font-size: 11px; font-weight: 500; }
+.up { color: var(--green); }
+.dn { color: var(--red); }
+.nt { color: var(--text-3); }
+.kpi-prev { font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+
+/* CHARTS */
+.chart-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 580px) { .chart-pair { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px 18px;
+}
+.card.full { grid-column: 1 / -1; }
+.card-title { font-size: 12.5px; font-weight: 600; color: var(--text-1); margin-bottom: 2px; }
+.card-sub { font-size: 11px; color: var(--text-3); margin-bottom: 12px; }
+.chart-wrap { position: relative; }
+.trend-note { font-size: 11px; color: var(--text-3); margin-top: 8px; font-style: italic; }
+
+.leg { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-2); }
+.leg-sq { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.leg-dash { width: 14px; height: 2px; flex-shrink: 0; background: var(--green); }
+
+/* ANALYSIS */
+.analysis {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+  margin-top: 14px;
+}
+.analysis-row {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.analysis-row:last-child { border-bottom: none; padding-bottom: 0; }
+.analysis-row:first-child { padding-top: 0; }
+.a-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.a-tag.li { background: var(--accent-light); color: var(--accent); }
+.a-tag.fb { background: #e8eef8; color: #2044a0; }
+.a-tag.lp { background: var(--green-light); color: var(--green); }
+.a-tag.new { background: var(--amber-light); color: var(--amber); }
+.a-text { font-size: 13px; color: var(--text-2); line-height: 1.55; }
+.a-text strong { color: var(--text-1); font-weight: 600; }
+
+/* CAMPAIGN TABLE */
+.camp-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.camp-table th {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-3); text-align: left; padding: 0 10px 8px; border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.camp-table th:not(:first-child):not(:nth-child(2)) { text-align: right; }
+.camp-table td {
+  padding: 8px 10px; border-bottom: 1px solid var(--border);
+  vertical-align: middle; color: var(--text-1);
+}
+.camp-table td:not(:first-child):not(:nth-child(2)) { text-align: right; }
+.camp-table tbody tr:last-child td { border-bottom: none; }
+.camp-table tbody tr:hover td { background: #fafaf8; }
+.plat {
+  display: inline-block; font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 3px;
+}
+.plat.li { background: var(--accent-light); color: var(--accent); }
+.plat.fb { background: #e8eef8; color: #2044a0; }
+.post-name { font-weight: 500; }
+.post-type { font-size: 11px; color: var(--text-3); }
+.top { background: #fffbf0; }
+.top td { border-bottom: 1px solid var(--border); }
+
+/* FOOTER */
+.ft {
+  border-top: 1px solid var(--border);
+  padding: 16px 40px;
+  font-size: 11px;
+  color: var(--text-3);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="wrap">
+    <p class="hd-eye">Romania · Social Media · Organic</p>
+    <h1 class="hd-title">Facebook &amp; LinkedIn — Jun 22–Jul 5, 2026</h1>
+    <p class="hd-sub">Biweekly report · vs Jun 8–21, 2026</p>
+    <div class="hd-pills">
+      <span class="hd-pill">📌 Jun 22–Jul 5 spotlight</span>
+      <span class="hd-pill">LinkedIn · Facebook</span>
+      <span class="hd-pill">Feb–Jul 2026 context</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ① SNAPSHOT -->
+  <div class="section">
+    <p class="sec-label">① Snapshot — Jun 22–Jul 5 vs Jun 8–21</p>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-lbl">LI Impressions</div>
+        <div class="kpi-val">384</div>
+        <div class="kpi-delta dn">▼ 64.1%</div>
+        <div class="kpi-prev">prev: 1,070</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">LI Eng. Rate</div>
+        <div class="kpi-val">8.81%</div>
+        <div class="kpi-delta up">▲ +1.7pp</div>
+        <div class="kpi-prev">prev: 7.10%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">FB Reach</div>
+        <div class="kpi-val">1,079</div>
+        <div class="kpi-delta dn">▼ 21.4%</div>
+        <div class="kpi-prev">prev: 1,372</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">FB Eng. Rate</div>
+        <div class="kpi-val">5.93%</div>
+        <div class="kpi-delta nt">≈ Flat</div>
+        <div class="kpi-prev">prev: 6.05%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">LP Clicks</div>
+        <div class="kpi-val">18</div>
+        <div class="kpi-delta nt">≈ Flat</div>
+        <div class="kpi-prev">prev: 19</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">WIA Clicks</div>
+        <div class="kpi-val">12</div>
+        <div class="kpi-delta nt">≈ Flat</div>
+        <div class="kpi-prev">prev: 13</div>
+      </div>
+    </div>
+
+    <div class="analysis">
+      <div class="analysis-row">
+        <span class="a-tag fb">FB</span>
+        <span class="a-text">Reach and views both down ~21–22% — ER held steady at 5.93%. <strong>Performance stable</strong> compared to the prior period. Top performer: <strong>Burdusel Georgiana WIA post</strong> and client app experience post.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag li">LI</span>
+        <span class="a-text">Impressions –65% while engagements –57% — ER slightly improved. <strong>4 posts had 0 engagement</strong> (DASR promo ×2, client app experience, WIA nomination CTA), dragging down the total. Top performer: <strong>Burdusel Georgiana WIA post</strong>.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag lp">LP</span>
+        <span class="a-text">Traffic flat at 18 clicks (prev: 19) — <strong>similar to the previous period</strong>. FB and LI now equal at 9 clicks each.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag new">New</span>
+        <span class="a-text"><strong>DASR landing page traffic appearing for the first time</strong> — volume is small but confirms promo posts are generating click-through.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② TRENDS -->
+  <div class="section">
+    <p class="sec-label">② Trends — Feb–Jul 2026</p>
+
+    <div class="chart-pair" style="margin-bottom: 14px;">
+      <div class="card">
+        <div class="card-title">Reach &amp; impressions</div>
+        <div class="card-sub">Monthly · LI impressions vs FB reach</div>
+        <div class="leg">
+          <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>LI impressions</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#238a57;"></span>FB reach</div>
+        </div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="cReach"></canvas>
+        </div>
+        <p class="trend-note">Mar spike: Bootcamp + WIA launch. Apr FB peak: strong subject-network amplification on early WIA profiles.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Engagement rate</div>
+        <div class="card-sub">Monthly · LI vs FB organic ER</div>
+        <div class="leg">
+          <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>LI ER</div>
+          <div class="leg-item"><span class="leg-dash"></span>FB ER</div>
+        </div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="cER"></canvas>
+        </div>
+        <p class="trend-note">LI ER at 8.81% — new highest biweekly figure recorded. FB ER flat at ~6%.</p>
+      </div>
+    </div>
+
+    <div class="card full">
+      <div class="card-title">LP clicks from RO social — by source</div>
+      <div class="card-sub">Mar–Jul 2026 · May = full month · remaining bars are biweekly windows</div>
+      <div class="leg">
+        <div class="leg-item"><span class="leg-sq" style="background:#1e4f8c;"></span>From Facebook</div>
+        <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>From LinkedIn</div>
+      </div>
+      <div class="chart-wrap" style="height:190px;">
+        <canvas id="cLP"></canvas>
+      </div>
+      <p class="trend-note">LP traffic stabilising at ~18–19 clicks per biweekly period. FB and LI now equal contributors at 9 clicks each.</p>
+    </div>
+  </div>
+
+  <!-- ③ CAMPAIGN PULSE -->
+  <div class="section">
+    <p class="sec-label">③ Campaign pulse — Jun 22–Jul 5 posts</p>
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <table class="camp-table">
+        <thead>
+          <tr>
+            <th style="padding-left: 14px; width: 36%;">Post</th>
+            <th>Platform</th>
+            <th>Impressions / Reach</th>
+            <th>ER</th>
+            <th>LP clicks</th>
+            <th>Reposts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="top">
+            <td style="padding-left: 14px;">
+              <div class="post-name">Burdusel Georgiana — ZEUS CONTA ⭐</div>
+              <div class="post-type">WIA profile · Top performer</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>104</td>
+            <td>7.69%</td>
+            <td>2</td>
+            <td>0</td>
+          </tr>
+          <tr class="top">
+            <td style="padding-left: 14px;">
+              <div class="post-name">Burdusel Georgiana — ZEUS CONTA ⭐</div>
+              <div class="post-type">WIA profile · Top performer</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>560</td>
+            <td>2.14%</td>
+            <td>—</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">Lacramioara Dumitrache — ALFIN CONSULT</div>
+              <div class="post-type">WIA profile</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>35</td>
+            <td>14.29%</td>
+            <td>9</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">Lacramioara Dumitrache — ALFIN CONSULT</div>
+              <div class="post-type">WIA profile</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>136</td>
+            <td>12.50%</td>
+            <td>3</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">Client app experience</div>
+              <div class="post-type">Product post</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>13</td>
+            <td>0.00%</td>
+            <td>19</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">Client app experience</div>
+              <div class="post-type">Product post</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>241</td>
+            <td>11.62%</td>
+            <td>19</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">DASR 2026 promo</div>
+              <div class="post-type">Event promo</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>14</td>
+            <td>14.29%</td>
+            <td>0</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">DASR 2026 promo</div>
+              <div class="post-type">Event promo</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>37</td>
+            <td>2.70%</td>
+            <td>1</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">DASR 2026 promo #2</div>
+              <div class="post-type">Event promo</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>23</td>
+            <td>0.00%</td>
+            <td>0</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">DASR 2026 promo #2</div>
+              <div class="post-type">Event promo</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>32</td>
+            <td>3.13%</td>
+            <td>1</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">WIA nomination CTA</div>
+              <div class="post-type">Supporting post</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>13</td>
+            <td>38.46%</td>
+            <td>1</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px; border-bottom: none;">
+              <div class="post-name">WIA nomination CTA</div>
+              <div class="post-type">Supporting post</div>
+            </td>
+            <td style="border-bottom: none;"><span class="plat li">LI</span></td>
+            <td style="border-bottom: none;">25</td>
+            <td style="border-bottom: none;">0.00%</td>
+            <td style="border-bottom: none;">—</td>
+            <td style="border-bottom: none;">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="ft">
+  <span>TaxDome Romania · Social Media Organic · Prepared Jul 7, 2026</span>
+  <span>Data: Feb–Jul 2026 · LP tracking from Mar 2026 · Facebook &amp; LinkedIn only</span>
+</div>
+
+<script>
+const tip = {
+  backgroundColor: '#1a1916', titleColor: '#fff',
+  bodyColor: 'rgba(255,255,255,0.7)', padding: 10, cornerRadius: 6, displayColors: false
+};
+
+const MONTHS = ['Feb','Mar','Apr','May','Jun 8–21','Jun 22–Jul 5'];
+
+new Chart(document.getElementById('cReach'), {
+  type: 'bar',
+  data: {
+    labels: MONTHS,
+    datasets: [
+      { label: 'LI Impressions', data: [848, 3814, 1369, 1951, 1070, 384], backgroundColor: (ctx) => ctx.dataIndex === 5 ? '#3568b0' : 'rgba(53,104,176,0.45)', borderRadius: 3, barPercentage: 0.7 },
+      { label: 'FB Reach', data: [140, 2430, 8568, 5067, 1372, 1079], backgroundColor: (ctx) => ctx.dataIndex === 5 ? '#238a57' : 'rgba(35,138,87,0.45)', borderRadius: 3, barPercentage: 0.7 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tip } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 10 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#938f84', font: { size: 10 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('cER'), {
+  type: 'line',
+  data: {
+    labels: MONTHS,
+    datasets: [
+      {
+        label: 'LI ER', data: [4.29, 4.64, 5.11, 4.82, 7.10, 8.81],
+        borderColor: '#3568b0', backgroundColor: 'transparent',
+        tension: 0.35, pointRadius: (ctx) => ctx.dataIndex === 5 ? 6 : 4,
+        pointBackgroundColor: (ctx) => ctx.dataIndex === 5 ? '#3568b0' : '#3568b0',
+        borderWidth: 2
+      },
+      {
+        label: 'FB ER', data: [9.29, 7.20, 1.62, 2.43, 6.05, 5.93],
+        borderColor: '#238a57', backgroundColor: 'transparent',
+        tension: 0.35, pointRadius: (ctx) => ctx.dataIndex === 5 ? 6 : 4,
+        borderWidth: 2, borderDash: [5, 3]
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw.toFixed(2) + '%' } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 10 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#938f84', font: { size: 10 }, callback: v => v + '%' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('cLP'), {
+  type: 'bar',
+  data: {
+    labels: ['Mar', 'Apr', 'May', 'May 25–Jun 7', 'Jun 8–21', 'Jun 22–Jul 5'],
+    datasets: [
+      { label: 'From Facebook', data: [180, 129, 97, 68, 5, 9], backgroundColor: (ctx) => ctx.dataIndex === 5 ? '#1e4f8c' : 'rgba(30,79,140,0.5)', borderRadius: 0 },
+      { label: 'From LinkedIn', data: [39, 17, 17, 7, 12, 9], backgroundColor: (ctx) => ctx.dataIndex === 5 ? '#3568b0' : 'rgba(53,104,176,0.5)', borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tip } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#938f84', font: { size: 10 }, autoSkip: false } },
+      y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#938f84', font: { size: 10 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>
