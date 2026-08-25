@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romania Social Media — July 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f9f8f6;
+  --surface: #ffffff;
+  --surface-2: #f2f1ee;
+  --border: #e4e2dc;
+  --text-1: #1a1916;
+  --text-2: #5a5850;
+  --text-3: #938f84;
+  --accent: #1a4f8a;
+  --accent-light: #e8eef7;
+  --accent-mid: #3b6db5;
+  --green: #1a6644;
+  --green-light: #e6f2ec;
+  --red: #8a2a1a;
+  --red-light: #f7ebe8;
+  --amber: #7a5200;
+  --amber-light: #fdf3e0;
+  --teal: #0e5c52;
+  --r: 8px;
+  --r-lg: 12px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.hd { background: var(--accent); color: #fff; padding: 36px 40px 30px; }
+.hd-eye { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; margin-bottom: 8px; }
+.hd-title { font-size: 22px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; }
+.hd-sub { font-size: 13px; opacity: 0.6; margin-bottom: 18px; }
+.hd-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.hd-pill {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
+  font-size: 11.5px;
+  padding: 3px 11px;
+  color: rgba(255,255,255,0.8);
+}
+
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 28px 0; border-bottom: 1px solid var(--border); }
+.section:last-of-type { border-bottom: none; }
+.sec-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-3); margin-bottom: 14px;
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+@media (max-width: 700px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 420px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 14px 12px;
+}
+.kpi-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; line-height: 1.3; }
+.kpi-val { font-size: 22px; font-weight: 600; line-height: 1; margin-bottom: 6px; }
+.kpi-delta { font-size: 11px; font-weight: 500; }
+.up { color: var(--green); }
+.dn { color: var(--red); }
+.nt { color: var(--text-3); }
+.kpi-prev { font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+
+.chart-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 580px) { .chart-pair { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px 18px;
+}
+.card.full { grid-column: 1 / -1; }
+.card-title { font-size: 12.5px; font-weight: 600; color: var(--text-1); margin-bottom: 2px; }
+.card-sub { font-size: 11px; color: var(--text-3); margin-bottom: 12px; }
+.chart-wrap { position: relative; }
+.trend-note { font-size: 11px; color: var(--text-3); margin-top: 8px; font-style: italic; }
+
+.leg { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-2); }
+.leg-sq { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.leg-dash { width: 14px; height: 2px; flex-shrink: 0; background: var(--green); }
+
+.analysis {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+  margin-top: 14px;
+}
+.analysis.tight { margin-top: 0; margin-bottom: 14px; }
+.analysis-row {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.analysis-row:last-child { border-bottom: none; padding-bottom: 0; }
+.analysis-row:first-child { padding-top: 0; }
+.a-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 3px; flex-shrink: 0; margin-top: 1px;
+  white-space: nowrap;
+}
+.a-tag.li   { background: var(--accent-light); color: var(--accent); }
+.a-tag.fb   { background: #e8eef8; color: #2044a0; }
+.a-tag.lp   { background: var(--green-light); color: var(--green); }
+.a-tag.tofu { background: var(--accent-light); color: var(--accent); }
+.a-tag.mofu { background: #efe8f7; color: #5b3a9e; }
+.a-tag.bofu { background: var(--green-light); color: var(--green); }
+.a-tag.warn { background: var(--red-light); color: var(--red); }
+.a-tag.key  { background: var(--amber-light); color: var(--amber); }
+.a-text { font-size: 13px; color: var(--text-2); line-height: 1.55; }
+.a-text strong { color: var(--text-1); font-weight: 600; }
+
+.camp-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.camp-table th {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-3); text-align: left; padding: 0 10px 8px;
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.camp-table th:not(:first-child):not(:nth-child(2)) { text-align: right; }
+.camp-table td {
+  padding: 8px 10px; border-bottom: 1px solid var(--border);
+  vertical-align: middle; color: var(--text-1);
+}
+.camp-table td:not(:first-child):not(:nth-child(2)) { text-align: right; }
+.camp-table tbody tr:last-child td { border-bottom: none; }
+.camp-table tbody tr:hover td { background: #fafaf8; }
+.grp-row td {
+  background: var(--surface-2); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3);
+  padding: 6px 10px 6px 14px;
+}
+.plat {
+  display: inline-block; font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 3px;
+}
+.plat.li { background: var(--accent-light); color: var(--accent); }
+.plat.fb { background: #e8eef8; color: #2044a0; }
+.post-name { font-weight: 500; }
+.post-type { font-size: 11px; color: var(--text-3); }
+.top { background: #fffbf0; }
+.top td { border-bottom: 1px solid var(--border); }
+.muted { color: var(--text-3); }
+
+.ft {
+  border-top: 1px solid var(--border);
+  padding: 16px 40px;
+  font-size: 11px; color: var(--text-3);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="wrap">
+    <p class="hd-eye">Romania · Social Media · Organic</p>
+    <h1 class="hd-title">Facebook &amp; LinkedIn — July 2026</h1>
+    <p class="hd-sub">Monthly report · MoM vs Jun 2026 · YoY vs Jul 2025</p>
+    <div class="hd-pills">
+      <span class="hd-pill">📌 July monthly</span>
+      <span class="hd-pill">TOFU · MOFU · BOFU</span>
+      <span class="hd-pill">Post-level diagnosis</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ① SNAPSHOT -->
+  <div class="section">
+    <p class="sec-label">① Snapshot — July vs June</p>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-lbl">LI Impressions</div>
+        <div class="kpi-val">1,978</div>
+        <div class="kpi-delta up">▲ +81.6%</div>
+        <div class="kpi-prev">prev: 1,089</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">FB Reach</div>
+        <div class="kpi-val">788</div>
+        <div class="kpi-delta dn">▼ 82.8%</div>
+        <div class="kpi-prev">prev: 4,576</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">LI Eng. Rate</div>
+        <div class="kpi-val">3.57%</div>
+        <div class="kpi-delta dn">▼ 2.65pp</div>
+        <div class="kpi-prev">prev: 6.22%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">FB Eng. Rate</div>
+        <div class="kpi-val">12.82%</div>
+        <div class="kpi-delta nt">▲ +8.03pp</div>
+        <div class="kpi-prev">prev: 4.79% · reach-based</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">LP Clicks</div>
+        <div class="kpi-val">64</div>
+        <div class="kpi-delta dn">▼ 7.2%</div>
+        <div class="kpi-prev">prev: 69</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Non-WIA LP</div>
+        <div class="kpi-val">36</div>
+        <div class="kpi-delta up">▲ +157%</div>
+        <div class="kpi-prev">prev: 14</div>
+      </div>
+    </div>
+
+    <div class="analysis">
+      <div class="analysis-row">
+        <span class="a-tag key">The story</span>
+        <span class="a-text">Facebook's engagement rate rose to 12.82%, but this reflects a <strong>smaller reach base</strong> rather than stronger performance; absolute Facebook engagement was lower for the month. Reach is the metric to focus on.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag bofu">Good news</span>
+        <span class="a-text">The encouraging development is in conversion: the funnel is becoming <strong>less reliant on the WIA campaign</strong>, with LinkedIn product-focused posts now generating clicks on their own.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag key">By platform</span>
+        <span class="a-text">Facebook is currently a small, lower-reach audience where <strong>personality-led WIA content is the most reliable driver of clicks</strong> (71% of them). LinkedIn is where the <strong>product message is beginning to convert on its own</strong>, with the two standout posts built on operational-control and Week One rollout angles.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② THE FUNNEL -->
+  <div class="section">
+    <p class="sec-label">② The funnel — TOFU / MOFU / BOFU</p>
+
+    <!-- TOFU -->
+    <div class="analysis tight">
+      <div class="analysis-row">
+        <span class="a-tag tofu">TOFU</span>
+        <span class="a-text">LinkedIn had its <strong>strongest distribution month on record</strong>, with impressions nearly doubling month-over-month (1,089 → 1,978) and more than doubling year-over-year.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag tofu">TOFU</span>
+        <span class="a-text">Facebook reach was lower this month at 788. With 17 posts published, this points to a <strong>distribution factor rather than reduced activity</strong>, and is the priority area to address.</span>
+      </div>
+    </div>
+
+    <div class="chart-pair" style="margin-bottom: 14px;">
+      <div class="card">
+        <div class="card-title">Reach &amp; impressions</div>
+        <div class="card-sub">LI impressions vs FB reach · YoY &amp; MoM</div>
+        <div class="leg">
+          <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>LI impressions</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#238a57;"></span>FB reach</div>
+        </div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="cReach"></canvas>
+        </div>
+        <p class="trend-note">LinkedIn reached its strongest month on record; Facebook reach was lower for the period.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Engagement: rate vs absolute</div>
+        <div class="card-sub">Estimated engaged actions · Jun vs Jul</div>
+        <div class="leg">
+          <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>LinkedIn</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#238a57;"></span>Facebook</div>
+        </div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="cEng"></canvas>
+        </div>
+        <p class="trend-note">Facebook's rate rose while absolute engagement was lower, reflecting the smaller reach base.</p>
+      </div>
+    </div>
+
+    <!-- MOFU -->
+    <div class="analysis tight">
+      <div class="analysis-row">
+        <span class="a-tag mofu">MOFU</span>
+        <span class="a-text">In absolute terms, <strong>LinkedIn is the healthier platform this month</strong>: engagement held roughly flat month-over-month and is up meaningfully year-over-year, even though its rate eased to 3.57%.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag mofu">MOFU</span>
+        <span class="a-text">Facebook's 12.82% engagement rate reflects its smaller reach base rather than stronger performance; absolute engagement was lower than June. Sharing activity was also light this month.</span>
+      </div>
+    </div>
+
+    <!-- BOFU -->
+    <div class="analysis tight">
+      <div class="analysis-row">
+        <span class="a-tag bofu">BOFU</span>
+        <span class="a-text">Landing-page clicks <strong>stabilized at 64</strong> after several months of decline, so the bottom of the funnel held steady.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag bofu">BOFU</span>
+        <span class="a-text">Encouragingly, <strong>non-WIA content drove most of the conversion</strong> this month (clicks up to 36 from 14), reducing the funnel's reliance on the WIA campaign.</span>
+      </div>
+    </div>
+
+    <div class="card full">
+      <div class="card-title">LP clicks from RO social — monthly</div>
+      <div class="card-sub">Mar–Jul 2026 · total LP clicks per month</div>
+      <div class="chart-wrap" style="height:190px;">
+        <canvas id="cLP"></canvas>
+      </div>
+      <p class="trend-note">Landing-page clicks stabilized at 64 after several months of decline (225 → 147 → 121 → 69 → 64).</p>
+    </div>
+
+    <div class="card full" style="margin-top: 14px;">
+      <div class="card-title">WIA vs non-WIA LP clicks — monthly</div>
+      <div class="card-sub">Mar–Jul 2026 · WIA campaign clicks vs everything else</div>
+      <div class="leg">
+        <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>WIA campaign</div>
+        <div class="leg-item"><span class="leg-sq" style="background:#238a57;"></span>Non-WIA content</div>
+      </div>
+      <div class="chart-wrap" style="height:190px;">
+        <canvas id="cWIA"></canvas>
+      </div>
+      <p class="trend-note">WIA's share of landing-page clicks eased from ~80% in June to 44% in July as non-WIA content grew.</p>
+    </div>
+  </div>
+
+  <!-- ③ POST-LEVEL DIAGNOSIS -->
+  <div class="section">
+    <p class="sec-label">③ Post-level diagnosis — top posts by platform</p>
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <table class="camp-table">
+        <thead>
+          <tr>
+            <th style="padding-left: 14px; width: 44%;">Post</th>
+            <th>Platform</th>
+            <th>Views / Impr.</th>
+            <th>Reach</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="grp-row"><td colspan="5">Facebook — WIA still drives the clicks</td></tr>
+          <tr class="top">
+            <td style="padding-left: 14px;">
+              <div class="post-name">Foundations for growth ⭐</div>
+              <div class="post-type">Non-WIA brand post · highest FB views</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>297</td>
+            <td>176</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">Women in Accounting feature</div>
+              <div class="post-type">WIA profile · only post to earn comments (+5)</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>228</td>
+            <td>106</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">Women in Accounting feature</div>
+              <div class="post-type">WIA profile</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>139</td>
+            <td>83</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">Women in Accounting feature</div>
+              <div class="post-type">WIA profile</div>
+            </td>
+            <td><span class="plat fb">FB</span></td>
+            <td>109</td>
+            <td>69</td>
+            <td>2</td>
+          </tr>
+
+          <tr class="grp-row"><td colspan="5">LinkedIn — product message converts on its own</td></tr>
+          <tr class="top">
+            <td style="padding-left: 14px;">
+              <div class="post-name">"Conduceți o firmă de contabilitate?" ⭐</div>
+              <div class="post-type">Non-WIA · operational control · ~100% click-to-impression</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>43</td>
+            <td class="muted">—</td>
+            <td>42</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">"Până la sfârșitul primei săptămâni"</div>
+              <div class="post-type">Non-WIA · Week One rollout proof point</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>43</td>
+            <td class="muted">—</td>
+            <td>18</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;">
+              <div class="post-name">Women in Accounting feature</div>
+              <div class="post-type">WIA profile · top LI impressions</div>
+            </td>
+            <td><span class="plat li">LI</span></td>
+            <td>269</td>
+            <td class="muted">—</td>
+            <td>24</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px; border-bottom: none;">
+              <div class="post-name">Platform evaluation question</div>
+              <div class="post-type">Non-WIA · app-vs-portal evaluation angle</div>
+            </td>
+            <td style="border-bottom: none;"><span class="plat li">LI</span></td>
+            <td style="border-bottom: none;">43</td>
+            <td style="border-bottom: none;" class="muted">—</td>
+            <td style="border-bottom: none;">14</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="analysis">
+      <div class="analysis-row">
+        <span class="a-tag fb">FB</span>
+        <span class="a-text">On Facebook, <strong>WIA content continues to lead</strong>, accounting for the majority of reach, views, and link clicks. Personality-led content remains the primary driver on this platform.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag li">LI</span>
+        <span class="a-text">On LinkedIn, <strong>product-focused posts are generating clicks on their own</strong>. The two top-clicking posts were product proof points rather than personality features, and non-WIA content accounted for most LinkedIn clicks.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag key">Split</span>
+        <span class="a-text">A clear, useful pattern: <strong>personality-led content drives engagement, product-focused content drives clicks</strong>. The two platforms are playing complementary roles.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ WHAT JULY IS TELLING US -->
+  <div class="section">
+    <p class="sec-label">④ What July is telling us</p>
+    <div class="analysis" style="margin-top: 0;">
+      <div class="analysis-row">
+        <span class="a-tag key">Priority</span>
+        <span class="a-text"><strong>Improve Facebook reach.</strong> The strong engagement rate reflects a smaller reach base. Since posting activity was steady, this points to a distribution factor to investigate. In the meantime, WIA content remains the most effective format on Facebook.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag li">Opportunity</span>
+        <span class="a-text"><strong>Scale the LinkedIn product-focused format.</strong> These posts are generating clicks without a named expert, which reduces reliance on the WIA campaign and is worth expanding.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag key">Direction</span>
+        <span class="a-text">Overall: maintain <strong>WIA as the engagement and Facebook-conversion driver</strong>, while growing the <strong>LinkedIn product-focused format</strong> that converts on its own.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag key">To monitor</span>
+        <span class="a-text">WIA campaign contribution has been easing month-over-month, and sharing activity was light in July. Both are worth keeping an eye on as amplification levers.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="ft">
+  <span>TaxDome Romania · Social Media Organic · July 2026 monthly</span>
+  <span>Data: Jul 2025, Jun 2026, Jul 2026 · LP tracking from Mar 2026 · Facebook &amp; LinkedIn only</span>
+</div>
+
+<script>
+const tip = {
+  backgroundColor: '#1a1916', titleColor: '#fff',
+  bodyColor: 'rgba(255,255,255,0.7)', padding: 10, cornerRadius: 6, displayColors: false
+};
+
+// Reach & impressions — YoY + MoM
+new Chart(document.getElementById('cReach'), {
+  type: 'bar',
+  data: {
+    labels: ['Jul 2025', 'Jun 2026', 'Jul 2026'],
+    datasets: [
+      {
+        label: 'LI Impressions',
+        data: [969, 1089, 1978],
+        backgroundColor: (ctx) => ctx.dataIndex === 2 ? '#3568b0' : 'rgba(53,104,176,0.4)',
+        borderRadius: 3, barPercentage: 0.7
+      },
+      {
+        label: 'FB Reach',
+        data: [2360, 4576, 788],
+        backgroundColor: (ctx) => ctx.dataIndex === 2 ? '#238a57' : 'rgba(35,138,87,0.4)',
+        borderRadius: 3, barPercentage: 0.7
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tip } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 10 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#938f84', font: { size: 10 } } }
+    }
+  }
+});
+
+// Engagement: estimated absolute engaged actions — Jun vs Jul
+new Chart(document.getElementById('cEng'), {
+  type: 'bar',
+  data: {
+    labels: ['Jun 2026', 'Jul 2026'],
+    datasets: [
+      {
+        label: 'LinkedIn',
+        data: [68, 71],
+        backgroundColor: '#3568b0', borderRadius: 3, barPercentage: 0.7
+      },
+      {
+        label: 'Facebook',
+        data: [219, 101],
+        backgroundColor: '#238a57', borderRadius: 3, barPercentage: 0.7
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { ...tip, callbacks: { label: ctx => ctx.dataset.label + ': ~' + ctx.raw + ' actions' } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 10 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#938f84', font: { size: 10 } } }
+    }
+  }
+});
+
+// LP clicks — monthly Mar–Jul
+new Chart(document.getElementById('cLP'), {
+  type: 'bar',
+  data: {
+    labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    datasets: [{
+      label: 'Total LP clicks',
+      data: [225, 147, 121, 69, 64],
+      backgroundColor: (ctx) => ctx.dataIndex === 4 ? '#1e4f8c' : 'rgba(30,79,140,0.45)',
+      borderRadius: 4, barPercentage: 0.6
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tip } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#938f84', font: { size: 10 } } }
+    }
+  }
+});
+
+// WIA vs non-WIA LP — stacked monthly Mar–Jul
+new Chart(document.getElementById('cWIA'), {
+  type: 'bar',
+  data: {
+    labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    datasets: [
+      {
+        label: 'WIA campaign',
+        data: [149, 97, 73, 55, 28],
+        backgroundColor: '#3568b0', borderRadius: 0
+      },
+      {
+        label: 'Non-WIA content',
+        data: [76, 50, 48, 14, 36],
+        backgroundColor: '#238a57', borderRadius: 3
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { ...tip, callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + ' clicks' } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#938f84', font: { size: 11 } } },
+      y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#938f84', font: { size: 10 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>
