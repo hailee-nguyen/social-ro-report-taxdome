@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Romania Social Media · September 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f9f8f6; --surface: #ffffff; --surface-2: #f2f1ee; --border: #e4e2dc;
+  --text-1: #1a1916; --text-2: #5a5850; --text-3: #938f84;
+  --accent: #1a4f8a; --accent-light: #e8eef7; --accent-mid: #3b6db5;
+  --green: #1a6644; --green-light: #e6f2ec; --red: #8a2a1a; --red-light: #f7ebe8;
+  --amber: #7a5200; --amber-light: #fdf3e0; --teal: #0e5c52;
+  --fb-tag-bg: #e8eef8; --fb-tag: #2044a0; --mofu-bg: #efe8f7; --mofu: #5b3a9e;
+  --top-bg: #fffbf0; --hover: #fafaf8;
+  --r: 8px; --r-lg: 12px;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161513; --surface: #201f1c; --surface-2: #2a2925; --border: #3a3832;
+    --text-1: #f1efe9; --text-2: #c4c0b5; --text-3: #8f8b80;
+    --accent: #1d3f68; --accent-light: #24344a; --green: #7fc9a0; --green-light: #1f3328;
+    --red: #e79a8a; --red-light: #3a2420; --amber: #e6bf6a; --amber-light: #382d17;
+    --fb-tag-bg: #26324a; --fb-tag: #9db6ec; --mofu-bg: #2e2640; --mofu: #c3aef0;
+    --top-bg: #2a261b; --hover: #26251f;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161513; --surface: #201f1c; --surface-2: #2a2925; --border: #3a3832;
+  --text-1: #f1efe9; --text-2: #c4c0b5; --text-3: #8f8b80;
+  --accent: #1d3f68; --accent-light: #24344a; --green: #7fc9a0; --green-light: #1f3328;
+  --red: #e79a8a; --red-light: #3a2420; --amber: #e6bf6a; --amber-light: #382d17;
+  --fb-tag-bg: #26324a; --fb-tag: #9db6ec; --mofu-bg: #2e2640; --mofu: #c3aef0;
+  --top-bg: #2a261b; --hover: #26251f;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-1); font-size: 14px; line-height: 1.5; }
+.hd { background: #1a4f8a; color: #fff; padding: 36px 0 30px; }
+.hd-eye { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; margin-bottom: 8px; }
+.hd-title { font-size: 22px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; }
+.hd-sub { font-size: 13px; opacity: 0.6; margin-bottom: 18px; }
+.hd-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.hd-pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 20px; font-size: 11.5px; padding: 3px 11px; color: rgba(255,255,255,0.8); }
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 28px 0; border-bottom: 1px solid var(--border); }
+.section:last-of-type { border-bottom: none; }
+.sec-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
+.kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+@media (max-width: 700px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 420px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+.kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 14px 14px 12px; }
+.kpi-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; line-height: 1.3; }
+.kpi-val { font-size: 22px; font-weight: 600; line-height: 1; margin-bottom: 6px; }
+.kpi-delta { font-size: 11px; font-weight: 500; }
+.up { color: var(--green); } .dn { color: var(--red); } .nt { color: var(--text-3); }
+.kpi-prev { font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+.chart-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 580px) { .chart-pair { grid-template-columns: 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px 18px; }
+.card-title { font-size: 12.5px; font-weight: 600; color: var(--text-1); margin-bottom: 2px; }
+.card-sub { font-size: 11px; color: var(--text-3); margin-bottom: 12px; }
+.chart-wrap { position: relative; }
+.trend-note { font-size: 11px; color: var(--text-3); margin-top: 8px; font-style: italic; }
+.leg { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-2); }
+.leg-sq { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.analysis { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px 20px; margin-top: 14px; }
+.analysis.tight { margin-top: 0; margin-bottom: 14px; }
+.analysis-row { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.analysis-row:last-child { border-bottom: none; padding-bottom: 0; }
+.analysis-row:first-child { padding-top: 0; }
+.a-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; white-space: nowrap; }
+.a-tag.li, .a-tag.tofu { background: var(--accent-light); color: var(--accent-mid); }
+.a-tag.fb { background: var(--fb-tag-bg); color: var(--fb-tag); }
+.a-tag.bofu { background: var(--green-light); color: var(--green); }
+.a-tag.mofu { background: var(--mofu-bg); color: var(--mofu); }
+.a-tag.warn { background: var(--red-light); color: var(--red); }
+.a-tag.key { background: var(--amber-light); color: var(--amber); }
+.a-text { font-size: 13px; color: var(--text-2); line-height: 1.55; }
+.a-text strong { color: var(--text-1); font-weight: 600; }
+.tbl-scroll { overflow-x: auto; }
+.camp-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 560px; }
+.camp-table th { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); text-align: left; padding: 12px 10px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.camp-table th:not(:first-child):not(:nth-child(2)) { text-align: right; }
+.camp-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--text-1); }
+.camp-table td:not(:first-child):not(:nth-child(2)) { text-align: right; }
+.camp-table tbody tr:last-child td { border-bottom: none; }
+.camp-table tbody tr:hover td { background: var(--hover); }
+.grp-row td { background: var(--surface-2); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); padding: 6px 10px 6px 14px; }
+.plat { display: inline-block; font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; }
+.plat.li { background: var(--accent-light); color: var(--accent-mid); }
+.plat.fb { background: var(--fb-tag-bg); color: var(--fb-tag); }
+.post-name { font-weight: 500; }
+.post-type { font-size: 11px; color: var(--text-3); }
+.top td { background: var(--top-bg); }
+.muted { color: var(--text-3); }
+.zero { color: var(--red); font-weight: 600; }
+.ft { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 11px; color: var(--text-3); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; max-width: 880px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="wrap">
+    <p class="hd-eye">Romania · Social Media · Organic</p>
+    <h1 class="hd-title">Facebook &amp; LinkedIn · September 2026</h1>
+    <p class="hd-sub">Monthly report · MoM vs Aug 2026 · YoY vs Sep 2025</p>
+    <div class="hd-pills">
+      <span class="hd-pill">📌 September monthly</span>
+      <span class="hd-pill">TOFU · MOFU · BOFU</span>
+      <span class="hd-pill">Post-level diagnosis</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section">
+    <p class="sec-label">① Snapshot · September vs August</p>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-lbl">LI Impressions</div><div class="kpi-val">4,556</div><div class="kpi-delta up">▲ +49.9%</div><div class="kpi-prev">prev: 3,040</div></div>
+      <div class="kpi"><div class="kpi-lbl">FB Reach</div><div class="kpi-val">4,484</div><div class="kpi-delta up">▲ +45.9%</div><div class="kpi-prev">prev: 3,073</div></div>
+      <div class="kpi"><div class="kpi-lbl">FB Views</div><div class="kpi-val">12,033</div><div class="kpi-delta up">▲ +10.8%</div><div class="kpi-prev">prev: 10,859</div></div>
+      <div class="kpi"><div class="kpi-lbl">LI Eng. Rate</div><div class="kpi-val">4.34%</div><div class="kpi-delta nt">▼ 1.59pp</div><div class="kpi-prev">prev: 5.93%</div></div>
+      <div class="kpi"><div class="kpi-lbl">FB Eng. Rate</div><div class="kpi-val">6.20%</div><div class="kpi-delta nt">▼ 0.57pp</div><div class="kpi-prev">prev: 6.77% · reach-based</div></div>
+      <div class="kpi"><div class="kpi-lbl">LP Clicks</div><div class="kpi-val">160</div><div class="kpi-delta dn">▼ −4.2%</div><div class="kpi-prev">prev: 167</div></div>
+    </div>
+
+    <div class="analysis">
+      <div class="analysis-row">
+        <span class="a-tag key">The story</span>
+        <span class="a-text">The strongest awareness month of 2026 on LinkedIn and the second strongest on Facebook, and <strong>Women in Accounting is the reason</strong>. WIA content delivered 86% of Facebook reach and every Facebook share, and a carousel repurposed from WIA became the month's biggest LinkedIn post. Both engagement rates eased, but <strong>absolute engagement grew on both platforms</strong>: a denominator effect, not weaker content.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag warn">Watch</span>
+        <span class="a-text"><strong>DASR pre-event content is underperforming</strong> with the summit on October 22: 8 of 12 DASR posts on Facebook earned zero reactions, comments or shares, and pain-point posts were the weakest format on both platforms.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag bofu">Conversion</span>
+        <span class="a-text">Landing-page clicks <strong>held at 160</strong> (−4%), the second-best month since March. Reach grew about 46 to 50% without lifting LP traffic, so visit to reach fell on both platforms. Non-WIA clicks kept growing (68 → 76), easing WIA's share of clicks from 59% to 53%.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="sec-label">② The funnel · TOFU / MOFU / BOFU</p>
+
+    <div class="analysis tight">
+      <div class="analysis-row">
+        <span class="a-tag tofu">TOFU</span>
+        <span class="a-text"><strong>LinkedIn impressions reached 4,556</strong> (+50% MoM, nearly 10× YoY), the highest of 2026. Two drivers: more posts (25 vs 18) and the <strong>repurposed WIA carousel on client relationships</strong> (Laura Camelia Ștefan, Florina Mateescu, Cornelia Nastase), which drew 1,372 impressions, about 35% of the month's post-level total. The baseline rose too: excluding each month's top post, LinkedIn posts averaged about 108 impressions vs about 84 in August.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag tofu">TOFU</span>
+        <span class="a-text"><strong>Facebook reach grew to 4,484</strong> (+46% MoM, nearly 14× YoY), second only to April. All of the growth came from WIA: non-WIA posts averaged about 43 reach each, unchanged from August, while WIA reach rose from 2,566 to 3,841. <strong>Three of four WIA profiles broke out</strong> above 700 reach (Ioana Dănilă, Lianda Munteanu, Mihaela Diaconu), against two of five in August; together they delivered 69% of Facebook reach.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag tofu">TOFU</span>
+        <span class="a-text"><strong>Facebook views reached 12,033</strong> (+11% MoM). Views grew far less than reach, so views per person reached fell from about 3.5 to 2.7: September reached a <strong>wider, newer audience</strong> rather than re-reaching the same people.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag key">YoY</span>
+        <span class="a-text">Year-over-year growth is <strong>mostly a volume effect</strong>: September 2025 had one LinkedIn post and two Facebook posts, against 25 and 23 this year. Per post, this year's averages (about 159 LinkedIn impressions, 195 Facebook reach) sit below last September's single customer testimonial video (Răzvan Macsim). Customer testimonial video was almost absent this month.</span>
+      </div>
+    </div>
+
+    <div class="chart-pair" style="margin-bottom: 14px;">
+      <div class="card">
+        <div class="card-title">Reach &amp; impressions</div>
+        <div class="card-sub">LI impressions vs FB reach · YoY &amp; MoM</div>
+        <div class="leg">
+          <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>LI impressions</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#238a57;"></span>FB reach</div>
+        </div>
+        <div class="chart-wrap" style="height:200px;"><canvas id="cReach"></canvas></div>
+        <p class="trend-note">Both platforms set 2026 highs or near-highs; YoY growth is largely posting volume.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Engagement: rate vs absolute</div>
+        <div class="card-sub">Reactions, comments &amp; shares from post exports · Aug vs Sep</div>
+        <div class="leg">
+          <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>LinkedIn</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#238a57;"></span>Facebook</div>
+        </div>
+        <div class="chart-wrap" style="height:200px;"><canvas id="cEng"></canvas></div>
+        <p class="trend-note">Absolute engagement rose on both platforms (LI +20%, FB +79%) while both rates eased.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 14px;">
+      <div class="card-title">Facebook views · monthly</div>
+      <div class="card-sub">Mar–Sep 2026 · total organic views per month</div>
+      <div class="chart-wrap" style="height:190px;"><canvas id="cViews"></canvas></div>
+      <p class="trend-note">Views reached 12,033 in September, the second-highest month of the year; the three WIA profiles contributed about two thirds.</p>
+    </div>
+
+    <div class="analysis tight">
+      <div class="analysis-row">
+        <span class="a-tag mofu">MOFU</span>
+        <span class="a-text"><strong>LinkedIn engagement rate eased to 4.34%</strong> (from 5.93%), but likes, comments and reposts rose from 130 to 156 (+20%): impressions grew faster than engagement. The month's top post shows "rates lie" clearly: the client relationships carousel drew <strong>729 clicks</strong> (74% of all LinkedIn post clicks) yet reads a below-average 2.77% ER, because LinkedIn's rate excludes clicks.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag mofu">MOFU</span>
+        <span class="a-text"><strong>Facebook engagement rate eased to 6.20%</strong> (from 6.77%), while reactions, comments and shares rose from 63 to 113 (+79%). WIA posts produced 79% of those interactions and <strong>all 10 Facebook shares</strong>; across both platforms, 13 of 16 shares came from WIA content. YoY, ER is up about 2.5pp on both platforms.</span>
+      </div>
+    </div>
+
+    <div class="analysis tight">
+      <div class="analysis-row">
+        <span class="a-tag bofu">BOFU</span>
+        <span class="a-text">Landing-page clicks <strong>held at 160</strong> (−4% MoM) after August's rebound. The issue is efficiency: Facebook visit to reach fell from 4.88% to 3.19%, LinkedIn from 0.56% to 0.35%. WIA LP clicks fell 15% (99 → 84) even as WIA reach grew: the Aug 3 profile turned 1,161 reach into 49 link clicks, the Sep 21 profile turned 1,223 reach into 17. Comparing CTA and link placement on those two posts would show why.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag bofu">BOFU</span>
+        <span class="a-text">The healthier signal: <strong>non-WIA LP clicks grew for a third month</strong> (36 → 68 → 76), and WIA's share eased from ~59% to ~53%. The destination of non-WIA traffic isn't broken out; if most of it is the DASR registration page, DASR content converts better than its engagement suggests.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">LP clicks from RO social · monthly</div>
+      <div class="card-sub">Mar–Sep 2026 · total LP clicks per month</div>
+      <div class="chart-wrap" style="height:190px;"><canvas id="cLP"></canvas></div>
+      <p class="trend-note">LP clicks held near August's level (225 → 147 → 121 → 69 → 64 → 167 → 160).</p>
+    </div>
+
+    <div class="card" style="margin-top: 14px;">
+      <div class="card-title">WIA vs non-WIA LP clicks · monthly</div>
+      <div class="card-sub">Mar–Sep 2026 · WIA campaign clicks vs everything else</div>
+      <div class="leg">
+        <div class="leg-item"><span class="leg-sq" style="background:#3568b0;"></span>WIA campaign</div>
+        <div class="leg-item"><span class="leg-sq" style="background:#238a57;"></span>Non-WIA content</div>
+      </div>
+      <div class="chart-wrap" style="height:190px;"><canvas id="cWIA"></canvas></div>
+      <p class="trend-note">Non-WIA clicks grew for a third straight month; WIA's share eased to ~53%.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="sec-label">③ Post-level diagnosis · top posts by platform</p>
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div class="tbl-scroll">
+      <table class="camp-table">
+        <thead>
+          <tr><th style="padding-left: 14px; width: 40%;">Post</th><th>Platform</th><th>Views / Impr.</th><th>Reactions</th><th>Shares</th><th>Clicks</th></tr>
+        </thead>
+        <tbody>
+          <tr class="grp-row"><td colspan="6">Facebook · WIA profiles drive reach, views &amp; sharing</td></tr>
+          <tr class="top">
+            <td style="padding-left: 14px;"><div class="post-name">WIA feature: Ioana Dănilă ⭐</div><div class="post-type">Dănilă &amp; Partners SRL · Sep 7 · highest FB views</div></td>
+            <td><span class="plat fb">FB</span></td><td>2.9K</td><td>6</td><td>2</td><td class="muted">—</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;"><div class="post-name">WIA feature: Mihaela Diaconu</div><div class="post-type">Diaconu Consult Office SRL · Sep 21 · highest FB reach (1,223)</div></td>
+            <td><span class="plat fb">FB</span></td><td>2.6K</td><td>9</td><td>2</td><td class="muted">—</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;"><div class="post-name">WIA feature: Lianda Munteanu</div><div class="post-type">LM Expert-Cont &amp; HR SRL · Sep 14 · most FB shares</div></td>
+            <td><span class="plat fb">FB</span></td><td>2.5K</td><td>14</td><td>3</td><td class="muted">—</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;"><div class="post-name">Repurposed WIA carousel: "Întrebați orice contabil…"</div><div class="post-type">3 WIA experts · client relationships · Sep 17</div></td>
+            <td><span class="plat fb">FB</span></td><td>687</td><td>21</td><td>2</td><td class="muted">—</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;"><div class="post-name">DASR speaker: Alina Goldenberg</div><div class="post-type">Country Manager, TaxDome Romania · Sep 30 · top non-WIA FB post</div></td>
+            <td><span class="plat fb">FB</span></td><td>348</td><td>12</td><td>0</td><td class="muted">—</td>
+          </tr>
+
+          <tr class="grp-row"><td colspan="6">LinkedIn · repurposed WIA carousels drive impressions &amp; clicks</td></tr>
+          <tr class="top">
+            <td style="padding-left: 14px;"><div class="post-name">Repurposed WIA carousel: "Întrebați orice contabil…" ⭐</div><div class="post-type">3 WIA experts · Sep 17 · top LI impressions &amp; clicks · ~53% click-to-impression</div></td>
+            <td><span class="plat li">LI</span></td><td>1,372</td><td>36</td><td>1</td><td>729</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;"><div class="post-name">DASR speaker: Alina Goldenberg</div><div class="post-type">Country Manager, TaxDome Romania · Sep 30 · highest LI engagement rate (7.3%)</div></td>
+            <td><span class="plat li">LI</span></td><td>437</td><td>32</td><td>0</td><td>14</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;"><div class="post-name">WIA feature: Ioana Dănilă</div><div class="post-type">Dănilă &amp; Partners SRL · Sep 7 · top LI WIA profile</div></td>
+            <td><span class="plat li">LI</span></td><td>192</td><td>6</td><td>1</td><td>5</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px; border-bottom: none;"><div class="post-name">Repurposed WIA: "Profesia contabilă din România este modelată de femei…"</div><div class="post-type">3 WIA experts · Sep 25 · 63 clicks on 98 impressions</div></td>
+            <td style="border-bottom: none;"><span class="plat li">LI</span></td><td style="border-bottom: none;">98</td><td style="border-bottom: none;">4</td><td style="border-bottom: none;">0</td><td style="border-bottom: none;">63</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="analysis">
+      <div class="analysis-row">
+        <span class="a-tag fb">FB</span>
+        <span class="a-text">On Facebook, the <strong>three lead WIA profiles carried the month</strong>: 69% of reach and about two thirds of views. Personality-led WIA content remains the reach and amplification engine on this platform.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag li">LI</span>
+        <span class="a-text">On LinkedIn the profiles stay modest (about 146 impressions each). The drivers are the <strong>repurposed WIA formats</strong>: the client relationships carousel (1,372 impressions, 729 clicks) and two smaller repurposed posts with 63 and 49 clicks. Repurposing WIA material into multi-voice themed content gives the campaign a second life on LinkedIn that individual profiles don't reach.</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 0; overflow: hidden; margin-top: 14px;">
+      <div class="tbl-scroll">
+      <table class="camp-table">
+        <thead>
+          <tr><th style="padding-left: 14px; width: 30%;">DASR content type</th><th>Posts</th><th>FB reach</th><th>FB interactions</th><th>Zero-eng. FB posts</th><th>LI impr.</th><th>LI eng.</th></tr>
+        </thead>
+        <tbody>
+          <tr class="grp-row"><td colspan="7">DASR pre-event content · September</td></tr>
+          <tr>
+            <td style="padding-left: 14px;"><div class="post-name">Speaker intros</div><div class="post-type">Dan Preda, Andrei Roșca, Dragoș Tănase, Yonis Brander, Alina Goldenberg</div></td>
+            <td style="text-align:right;">5</td><td>363</td><td>15</td><td>3 of 5</td><td>970</td><td>65</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px;"><div class="post-name">2025 attendee testimonials</div><div class="post-type">Nicoleta Vrăjescu Dobre, Laurențiu Șulai, Nataliya Vovchuk</div></td>
+            <td style="text-align:right;">3</td><td>109</td><td>7</td><td>1 of 3</td><td>276</td><td>8</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 14px; border-bottom: none;"><div class="post-name">Pain-point / topic posts</div><div class="post-type">Founder dependency, professional risk, three changes, challenges poll</div></td>
+            <td style="text-align:right; border-bottom: none;">4</td><td style="border-bottom: none;">80</td><td class="zero" style="border-bottom: none;">0</td><td class="zero" style="border-bottom: none;">4 of 4</td><td style="border-bottom: none;">352</td><td style="border-bottom: none;">6</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="analysis">
+      <div class="analysis-row">
+        <span class="a-tag warn">DASR</span>
+        <span class="a-text">The 12 DASR posts on Facebook delivered <strong>12% of reach and 22 interactions</strong>, 12 of them on Alina Goldenberg's card. <strong>Pain-point posts were the weakest format on both platforms</strong>: zero Facebook engagement and 6 LinkedIn engagements across 6 posts. Speaker intros did far better on LinkedIn (65 engagements) than on Facebook, and the best performer on both is a known local face, consistent with the Romania pattern of named local experts carrying engagement.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag warn">Also weak</span>
+        <span class="a-text">The three HR webinar follow-ups (Alina Dragoș quote, 10 HR risks demo CTA, ITM video) reached 91 people on Facebook with 2 interactions. In all, <strong>11 of 23 Facebook posts earned zero reactions, comments or shares</strong>.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag key">To scale</span>
+        <span class="a-text"><strong>Repurposed WIA carousels on LinkedIn</strong> produced the month's biggest post and highest clicks, for the second month running (Aug 13: 250 clicks; Sep 17: 729). A DASR-angled version, with WIA voices on the topics DASR will cover, would bridge both tracks.</span>
+      </div>
+      <div class="analysis-row">
+        <span class="a-tag key">To fix</span>
+        <span class="a-text"><strong>Click yield on WIA profiles.</strong> Reach is growing but WIA LP traffic fell 15%. Compare the Aug 3 and Sep 21 posts to find the difference in CTA or link placement.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="ft">
+  <span>TaxDome Romania · Social Media Organic · September 2026 monthly</span>
+  <span>Data: Sep 2025, Aug 2026, Sep 2026 · LP tracking from Mar 2026 · Facebook &amp; LinkedIn only</span>
+</div>
+
+<script>
+(function(){
+  if (typeof Chart === 'undefined') return;
+  const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light';
+  const tickC = dark ? '#8f8b80' : '#938f84';
+  const gridC = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)';
+  const tip = { backgroundColor: '#1a1916', titleColor: '#fff', bodyColor: 'rgba(255,255,255,0.75)', padding: 10, cornerRadius: 6, displayColors: false };
+  const axes = (stacked) => ({
+    x: { stacked: !!stacked, grid: { display: false }, ticks: { color: tickC, font: { size: 11 } } },
+    y: { stacked: !!stacked, grid: { color: gridC }, ticks: { color: tickC, font: { size: 10 } } }
+  });
+  const base = (extra) => Object.assign({ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { ...tip } }, scales: axes() }, extra || {});
+  const months = ['Mar','Apr','May','Jun','Jul','Aug','Sep'];
+
+  new Chart(document.getElementById('cReach'), { type: 'bar', data: { labels: ['Sep 2025','Aug 2026','Sep 2026'], datasets: [
+    { label: 'LI impressions', data: [473, 3040, 4556], backgroundColor: c => c.dataIndex === 2 ? '#3568b0' : 'rgba(53,104,176,0.4)', borderRadius: 3, barPercentage: 0.7 },
+    { label: 'FB reach', data: [324, 3073, 4484], backgroundColor: c => c.dataIndex === 2 ? '#238a57' : 'rgba(35,138,87,0.4)', borderRadius: 3, barPercentage: 0.7 }
+  ]}, options: base() });
+
+  new Chart(document.getElementById('cEng'), { type: 'bar', data: { labels: ['Aug 2026','Sep 2026'], datasets: [
+    { label: 'LinkedIn', data: [130, 156], backgroundColor: '#3568b0', borderRadius: 3, barPercentage: 0.7 },
+    { label: 'Facebook', data: [63, 113], backgroundColor: '#238a57', borderRadius: 3, barPercentage: 0.7 }
+  ]}, options: base({ plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: { label: c => c.dataset.label + ': ' + c.raw + ' actions' } } } }) });
+
+  new Chart(document.getElementById('cViews'), { type: 'bar', data: { labels: months, datasets: [
+    { label: 'FB views', data: [6791, 10448, 9258, 13223, 5591, 10859, 12033], backgroundColor: c => c.dataIndex === 6 ? '#238a57' : 'rgba(35,138,87,0.4)', borderRadius: 4, barPercentage: 0.6 }
+  ]}, options: base() });
+
+  new Chart(document.getElementById('cLP'), { type: 'bar', data: { labels: months, datasets: [
+    { label: 'Total LP clicks', data: [225, 147, 121, 69, 64, 167, 160], backgroundColor: c => c.dataIndex === 6 ? (dark ? '#4f86cf' : '#1e4f8c') : (dark ? 'rgba(79,134,207,0.45)' : 'rgba(30,79,140,0.45)'), borderRadius: 4, barPercentage: 0.6 }
+  ]}, options: base() });
+
+  new Chart(document.getElementById('cWIA'), { type: 'bar', data: { labels: months, datasets: [
+    { label: 'WIA campaign', data: [149, 97, 73, 55, 28, 99, 84], backgroundColor: '#3568b0', borderRadius: 0 },
+    { label: 'Non-WIA content', data: [76, 50, 48, 14, 36, 68, 76], backgroundColor: '#238a57', borderRadius: 3 }
+  ]}, options: base({ plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: { label: c => c.dataset.label + ': ' + c.raw + ' clicks' } } }, scales: axes(true) }) });
+})();
+</script>
+</body>
+</html>
